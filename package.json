@@ -1,9 +1,9 @@
 {
-  "name": "sigaa-crawler",
+  "name": "sigaa-subjects-competitions-crawler",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node src"
   },
   "license": "MIT",
   "dependencies": {
