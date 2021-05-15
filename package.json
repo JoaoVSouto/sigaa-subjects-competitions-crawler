@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node src"
+    "start": "node src",
+    "start:whatsapp": "node src --mode=whatsapp"
   },
   "license": "MIT",
   "dependencies": {
