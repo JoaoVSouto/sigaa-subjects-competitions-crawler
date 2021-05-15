@@ -1,0 +1,16 @@
+{
+  "name": "sigaa-crawler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "dotenv": "^9.0.2",
+    "puppeteer": "^9.1.1",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.12.6"
+  }
+}
