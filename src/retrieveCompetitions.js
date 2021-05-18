@@ -58,7 +58,12 @@ async function retrieveCompetitions() {
     const [solicitationsOnRegistration] = solicitations.split('\n');
     const [solicitationsNumber] = solicitationsOnRegistration.match(/\d+\b/);
 
-    competitions += `${rawSubjectTitle} - ${solicitationsNumber}/${capacityNumber}`;
+    const studentsPerAvailableSpots =
+      Number(solicitationsNumber) / Number(capacityNumber);
+
+    competitions += `${rawSubjectTitle} - ${solicitationsNumber}/${capacityNumber} - Concorrência: ${studentsPerAvailableSpots.toFixed(
+      2
+    )}`;
     if (index !== modalTriggerers.length - 1) {
       competitions += '\n---------\n';
     }
