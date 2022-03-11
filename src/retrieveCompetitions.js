@@ -37,12 +37,28 @@ async function retrieveCompetitions() {
     const [subjectElement] = await page.$x(
       '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[3]/td'
     );
-    const [capacityElement] = await page.$x(
+    let [capacityElement] = await page.$x(
       '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[8]/td'
     );
-    const [solicitationsElement] = await page.$x(
+    let [solicitationsElement] = await page.$x(
       '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[9]/td'
     );
+
+    const [observationElement] = await page.$x(
+      '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[4]/th'
+    );
+
+    const observation = await page.evaluate(e => e.innerText, observationElement);
+
+    if(observation == "Observações:") {
+      [capacityElement] = await page.$x(
+        '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[9]/td'
+      );
+
+      [solicitationsElement] = await page.$x(
+        '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[10]/td'
+      );
+    }
 
     const subjectTitle = await page.evaluate(e => e.innerText, subjectElement);
     const capacity = await page.evaluate(e => e.innerText, capacityElement);
