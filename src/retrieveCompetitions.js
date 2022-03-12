@@ -56,7 +56,7 @@ async function retrieveCompetitions() {
 
     const observation = await page.evaluate(e => e.innerText, observationElement);
 
-    if(observation == "Observações:") {
+    if(observation === "Observações:") {
       [capacityElement] = await page.$x(
         '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[9]/td'
       );
