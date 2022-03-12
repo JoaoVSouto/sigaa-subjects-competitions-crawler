@@ -17,6 +17,12 @@ async function retrieveCompetitions() {
 
   await page.waitForNavigation();
 
+  const newLayout = !!(await page.$('#main-menu'));
+
+  if (!newLayout) {
+    await page.goto('https://sigaa.ufrn.br/sigaa/portal/convite/beta/layout');
+  }
+
   const [seeRegistrationOrientations] = await page.$x(
     '//*[@id="main-menu"]/li[1]/ul/li[16]/ul/li[12]/a'
   );
@@ -37,12 +43,28 @@ async function retrieveCompetitions() {
     const [subjectElement] = await page.$x(
       '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[3]/td'
     );
-    const [capacityElement] = await page.$x(
+    let [capacityElement] = await page.$x(
       '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[8]/td'
     );
-    const [solicitationsElement] = await page.$x(
+    let [solicitationsElement] = await page.$x(
       '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[9]/td'
     );
+
+    const [observationElement] = await page.$x(
+      '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[4]/th'
+    );
+
+    const observation = await page.evaluate(e => e.innerText, observationElement);
+
+    if(observation === "Observações:") {
+      [capacityElement] = await page.$x(
+        '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[9]/td'
+      );
+
+      [solicitationsElement] = await page.$x(
+        '//*[@id="resumo"]/table/tbody/tr/td/table/tbody/tr[10]/td'
+      );
+    }
 
     const subjectTitle = await page.evaluate(e => e.innerText, subjectElement);
     const capacity = await page.evaluate(e => e.innerText, capacityElement);
@@ -75,6 +97,22 @@ async function retrieveCompetitions() {
     await documentBody.press('Escape');
     await page.waitForTimeout(1000);
   });
+
+  if(!newLayout) {
+    const [oldLayout] = await page.$x(
+      '//*[@id="painel-usuario"]/div/div[2]/div[1]/ul/li[1]/a'
+    );
+
+    await page.evaluate(link => link.click(), oldLayout);
+
+    await oldLayout.dispose();
+
+    await page.waitForSelector('.modal-footer');
+
+    const oldLayoutConfirm = await page.$('button[class="btn btn-default"]');
+
+    await oldLayoutConfirm.click();
+  }
 
   await documentBody.dispose();
 
